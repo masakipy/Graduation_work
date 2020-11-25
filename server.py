@@ -6,8 +6,7 @@ import numpy as np
 import datetime
 
 dt_now = datetime.datetime.now()
-dt = dt_now.strftime('%d')
-day = str(dt)
+day = str(dt_now.day)
 month = str(dt_now.month)
 
 def extract_page_url(infomation_url):
@@ -63,11 +62,26 @@ df = df.rename(columns={"Unnamed: 0": "都道府県名",
                         "Unnamed: 7": "確認中（人）"})
 
 # 邪魔な文字を置換で消去
+# 都道府県
 df["都道府県名"] = df["都道府県名"].str.replace('※4', '')
 df["都道府県名"] = df["都道府県名"].str.replace('※5', '')
 df["都道府県名"] = df["都道府県名"].str.replace('※7', '')
 df["都道府県名"] = df["都道府県名"].str.replace(' ', '')	
+# 陽性者数
 df["陽性者数"] = df["陽性者数"].str.replace(',', '')	
+# PCR検査実施人数
+df["PCR検査実施人数"] = df["PCR検査実施人数"].str.replace(',', '')
+# 入院治療等を要する者（人）
+df["入院治療等を要する者（人）"] = df["入院治療等を要する者（人）"].str.replace(',', '')
+# うち重症
+df["うち重症"] = df["うち重症"].str.replace(',', '')
+# 退院又は療養解除となった者の数（人）
+df["退院又は療養解除となった者の数（人）"] = df["退院又は療養解除となった者の数（人）"].str.replace(',', '')
+# 死亡（累積）（人）
+df["死亡（累積）（人）"] = df["死亡（累積）（人）"].str.replace(',', '')
+# 確認中（人）
+df["確認中（人）"] = df["確認中（人）"].str.replace(',', '')
+
 df = df.fillna(0)
 df = df.drop(df.index[[0, 1, len(df)-1, len(df)-2]])
 df.reset_index(drop=True)
